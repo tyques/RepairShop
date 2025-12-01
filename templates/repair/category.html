@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+  Заказы по типу техники «{{ appliance_type.title }}»
+{% endblock %}
+{% block content %}
+<h1>Заказы по типу техники «{{ appliance_type.title }}»</h1>
+<p class="mb-5">{{ appliance_type.description }}</p>
+{% if order_list %}
+  {% for order in order_list %}
+    <article class="mb-5">  
+      {% include "includes/order_card.html" %}
+    </article>   
+  {% endfor %}
+{% else %}
+  <p class="text-muted">Пока нет заказов по этому типу техники.</p>
+{% endif %}
+
+{% endblock %}

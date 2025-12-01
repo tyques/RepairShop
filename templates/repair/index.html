@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+  Заказы на ремонт
+{% endblock %}
+{% block content %}
+  <h1 class="mb-5">Заказы на ремонт</h1>
+  {% if order_list %}
+    {% for order in order_list %}
+      <article class="mb-5">  
+        {% include "includes/order_card.html" %}
+      </article>   
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">Пока нет заказов на ремонт.</p>
+  {% endif %}
+{% endblock %}

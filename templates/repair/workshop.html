@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}
+  Заказы мастерской «{{ workshop.name }}»
+{% endblock %}
+{% block content %}
+<h1>Заказы мастерской «{{ workshop.name }}»</h1>
+{% if workshop.address %}
+  <p class="text-muted"><strong>Адрес:</strong> {{ workshop.address }}</p>
+{% endif %}
+{% if workshop.phone %}
+  <p class="text-muted"><strong>Телефон:</strong> {{ workshop.phone }}</p>
+{% endif %}
+<hr class="mb-5">
+{% if order_list %}
+  {% for order in order_list %}
+    <article class="mb-5">  
+      {% include "includes/order_card.html" %}
+    </article>   
+  {% endfor %}
+{% else %}
+  <p class="text-muted">Пока нет заказов в этой мастерской.</p>
+{% endif %}
+
+{% endblock %}
+

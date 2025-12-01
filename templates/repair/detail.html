@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}
+Заказ #{{ order.id }} | {{ order.appliance_brand }} | {{ order.created_at|date:"d E Y" }}
+{% endblock %}
+{% block content %}
+  <article>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3>Заказ на ремонт #{{ order.id }}</h3>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">
+          <strong>Дата создания:</strong> {{ order.created_at|date:"d E Y, H:i" }}<br>
+          {% if order.workshop %}
+            <strong>Мастерская:</strong> {{ order.workshop.name }}<br>
+          {% endif %}
+          {% if order.status %}
+            <strong>Статус:</strong> <span class="badge bg-primary">{{ order.status.name }}</span><br>
+          {% endif %}
+          {% if order.master %}
+            <strong>Мастер:</strong> {{ order.master.get_full_name|default:order.master.username }}<br>
+          {% endif %}
+        </p>
+        
+        <hr>
+        
+        <h5>Информация о клиенте</h5>
+        <p>
+          <strong>Имя:</strong> {{ order.customer.name }}<br>
+          <strong>Телефон:</strong> {{ order.customer.phone }}<br>
+          {% if order.customer.email %}
+            <strong>Email:</strong> {{ order.customer.email }}<br>
+          {% endif %}
+        </p>
+        
+        <hr>
+        
+        <h5>Информация о технике</h5>
+        <p>
+          {% if order.appliance_type %}
+            <strong>Тип техники:</strong> 
+            <a href="{% url 'repair:appliance_type_orders' order.appliance_type.slug %}">
+              {{ order.appliance_type.title }}
+            </a><br>
+          {% endif %}
+          <strong>Марка:</strong> {{ order.appliance_brand }}<br>
+          {% if order.appliance_model %}
+            <strong>Модель:</strong> {{ order.appliance_model }}<br>
+          {% endif %}
+        </p>
+        
+        <hr>
+        
+        <h5>Описание неисправности</h5>
+        <p>{{ order.description|linebreaksbr }}</p>
+        
+        {% if order.estimated_cost or order.final_cost %}
+          <hr>
+          <h5>Стоимость</h5>
+          <p>
+            {% if order.estimated_cost %}
+              <strong>Предварительная стоимость:</strong> {{ order.estimated_cost }} руб.<br>
+            {% endif %}
+            {% if order.final_cost %}
+              <strong>Финальная стоимость:</strong> <span class="text-success">{{ order.final_cost }} руб.</span><br>
+            {% endif %}
+          </p>
+        {% endif %}
+        
+        {% if order.completed_at %}
+          <hr>
+          <p class="text-success">
+            <strong>Завершено:</strong> {{ order.completed_at|date:"d E Y, H:i" }}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+    
+    <a href="{% url 'repair:index' %}" class="btn btn-secondary">← Вернуться к списку заказов</a>
+  </article> 
+{% endblock %}

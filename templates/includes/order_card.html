@@ -1,0 +1,30 @@
+<div class="card" style="width: 40rem;">
+  <div class="card-body">
+    <h5 class="card-title">Заказ #{{ order.id }} - {{ order.appliance_brand }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <small>
+        {{ order.created_at|date:"d E Y, H:i" }}<br>
+        {% if order.workshop and order.workshop.is_published %}
+          Мастерская: {{ order.workshop.name }}<br>
+        {% endif %}
+        Клиент: {{ order.customer.name }} ({{ order.customer.phone }})<br>
+        {% if order.appliance_type %}
+          Тип техники: <a href="{% url 'repair:appliance_type_orders' order.appliance_type.slug %}">{{ order.appliance_type.title }}</a><br>
+        {% endif %}
+        {% if order.status %}
+          Статус: <span class="badge bg-primary">{{ order.status.name }}</span>
+        {% endif %}
+      </small>
+    </h6>
+    <p class="card-text">
+      <strong>Описание:</strong> {{ order.description|truncatewords:15 }}
+    </p>
+    {% if order.final_cost %}
+      <p class="text-success"><strong>Стоимость:</strong> {{ order.final_cost }} руб.</p>
+    {% elif order.estimated_cost %}
+      <p class="text-muted"><strong>Предварительная стоимость:</strong> {{ order.estimated_cost }} руб.</p>
+    {% endif %}
+    <a href="{% url 'repair:order_detail' order.id %}" class="card-link">Подробнее о заказе</a>
+  </div>
+</div>
+
