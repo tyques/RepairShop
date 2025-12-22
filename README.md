@@ -136,11 +136,5 @@ python manage.py makemigrations repair
 
 Запуск тестов:
 ```bash
-pytest
+python manage.py test
 ```
-
-Или с подробным выводом:
-```bash
-pytest -v
-```
-
